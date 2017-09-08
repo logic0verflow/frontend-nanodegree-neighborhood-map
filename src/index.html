@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Neighborhood Map</title>
+
+    <!-- Include JQuery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+    <!-- Include Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+
+    <style>
+        /** { border: 1px solid red; }*/
+
+        .container {
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        #main-menu {
+            background-color: white;
+            width: 512px;
+            height: 100vh;
+            padding: 0 15px 0 15px;
+        }
+
+        #map {
+            background-color: grey;
+            width: 100%;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="main-menu" class="">
+        <h2>multos anim irure</h2>
+        <div class="input-group">
+            <input type="text" id="search-text" placeholder="Enter your search here"
+                class="form-control">
+            <span class="input-group-btn">
+                <button type="button" id="search-button"
+                    class="btn btn-default">Search</button>
+            </span>
+        </div>
+
+        <h4>Apply filters</h4>
+        <ul>
+            <li><input type="radio">Filter</li>
+            <li><input type="radio">Filter</li>
+            <li><input type="radio">Filter</li>
+        </ul>
+    </div>
+
+    <div id="map" class="">map</div>
+
+</div>
+
+</body>
+</html>
