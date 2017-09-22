@@ -17,9 +17,9 @@ h2 {
     position: fixed;
     z-index: 1;
     top: 0;
-    left: -500px;
-    width: 500px;
-    transition: 0.3s;
+    left: calc(-1 * (100vw * 0.9));
+    /*max-width: 500px;*/
+    width: calc(100vw * 0.9);
     box-shadow: 0 0 15px 1px #3c3c3c;
 }
 
@@ -36,8 +36,14 @@ h2 {
     top: 0px;
     margin: 15px;
     position: absolute;
-    right: -80px;
+    /*right: -80px;*/
+    left: 0;
     z-index: 1;
+}
+
+#main-menu,
+#menu-toggle {
+    transition: 0.3s;
 }
 
 #map {
