@@ -1,7 +1,7 @@
 
 var map;
 
-var viewModel;
+var viewModel = {};
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -12,36 +12,77 @@ function initMap() {
     });
 
 
-    var service = new google.maps.places.PlacesService(map);
-    var request = {
-        location: {lat: 37.335216, lng: -121.887814},
-        radius: 10000,
-        keyword: "apartment"
-    };
-
     infoWindow = new google.maps.InfoWindow();
 
-    service.nearbySearch(request, function(result) {
+    var callBack = function(itemName) {
+        return function(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                viewModel[itemName] = results;
 
-        viewModel = { apartment: result };
-        ko.applyBindings(viewModel);
+                viewModel[itemName].forEach(function(item) {
 
-        viewModel.apartment.forEach(function(apt) {
-            var marker = new google.maps.Marker({
-                position: apt.geometry.location,
-                map: map,
-                title: apt.name
-            });
-            marker.addListener('click', function() {
-                infoWindow.close();
-                var content = '<div id="info-window"><h3>'+apt.name+'</h3></div>';
-                infoWindow.setContent(content);
-                infoWindow.open(map,this);
-            });
+                    var marker = new google.maps.Marker({
+                        position: item.geometry.location,
+                        map: map,
+                        title: item.name,
+                        icon: {
+                            url: 'img/' + itemName + '.png',
+                            scaledSize: new google.maps.Size(20, 20),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(0, 10)
+                        }
+                    });
 
-        });
+                    marker.addListener('click', function() {
+                        infoWindow.close();
+                        var content = '<div id="info-window"><h3>'+item.name+'</h3></div>';
+                        infoWindow.setContent(content);
+                        infoWindow.open(map,this);
+                    });
 
-    });
+                });
+            } else {
+                console.log("FAIL");
+            }
+        }
+    }
+
+    var service = new google.maps.places.PlacesService(map);
+
+    var requestApartments = {
+        location: {lat: 37.335216, lng: -121.887814},
+        radius: 10000,
+        keyword: 'apartment'
+    };
+    service.nearbySearch(requestApartments, callBack('apartment'));
+
+    var requestGroceries = {
+        location: {lat: 37.335216, lng: -121.887814},
+        radius: 10000,
+        keyword: 'groceries'
+    };
+    service.nearbySearch(requestGroceries, callBack('groceries'));
+
+    var requestGames = {
+        location: {lat: 37.335216, lng: -121.887814},
+        radius: 10000,
+        keyword: 'games'
+    };
+    service.nearbySearch(requestGames, callBack('games'));
+
+    var requestTheater = {
+        location: {lat: 37.335216, lng: -121.887814},
+        radius: 10000,
+        keyword: 'movies'
+    };
+    service.nearbySearch(requestTheater, callBack('movies'));
+
+    var requestParks = {
+        location: {lat: 37.335216, lng: -121.887814},
+        radius: 10000,
+        keyword: 'parks'
+    };
+    service.nearbySearch(requestParks, callBack('parks'));
 
 }
 
@@ -59,7 +100,7 @@ function toggleMenu() {
     // Keep the menu at a max width
     var maxWidth = 600;
     var width = $(window).width();
-    console.log(width);
+    // console.log(width);
     width = (width > maxWidth) ? maxWidth : width;
     menuWidth = width * 0.9;
     menuWidth += "px";
