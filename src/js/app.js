@@ -1,9 +1,13 @@
 
-var map;
+var map,
+    infoWindow,
+    menuOpen = false;
 
-var viewModel = {};
-
+/**
+ * Sets up the Google Map and requests all the data needed for the markers
+ */
 function initMap() {
+    // Setup the page Google Map
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.335216, lng: -121.887814},
         zoom: 12    ,
@@ -11,15 +15,26 @@ function initMap() {
         mapTypeControl: false
     });
 
-
+    // Initialize the single info window used on the map
     infoWindow = new google.maps.InfoWindow();
 
+    /**
+     * Use this callback function when requesting information from the
+     * nearbySearch within the PlacesServices library.
+     * @param {string} itemName - The name/type of the item requested, used as
+     *                            a key when accessing the ViewModel
+     * @return {function} - Anonymous function that saves the results from the
+     *                      request, creates markers with listeners, and saves
+     *                      the markers.
+     */
     var callBack = function(itemName) {
         return function(results, status) {
+            // if the request made returned back OK and results intact
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                viewModel[itemName] = results;
-
-                viewModel[itemName].forEach(function(item) {
+                // Save the results in the associated list
+                viewModel.load(itemName, results);
+                // for each result, create a marker with a listener
+                results.forEach(function(item) {
 
                     var marker = new google.maps.Marker({
                         position: item.geometry.location,
@@ -33,79 +48,67 @@ function initMap() {
                         }
                     });
 
+                    // Open infoWindow with point details when marker is clicked
                     marker.addListener('click', function() {
+                        // If a marker is clicked, close any infoWindow that is
+                        // open
                         infoWindow.close();
-                        var content = '<div id="info-window"><h3>'+item.name+'</h3></div>';
+                        // Setup content to display in infoWindow
+                        var content = '<div id="info-window"><h3>' +
+                                      item.name +
+                                      '</h3></div>';
                         infoWindow.setContent(content);
                         infoWindow.open(map,this);
                     });
 
+                    marker.listingType = itemName;
+                    viewModel.markers.push(marker);
                 });
-            } else {
-                console.log("FAIL");
+            }
+            // If the request failed, do something here
+            else {
+                console.log("nearbySearch request failed!");
             }
         }
     }
 
     var service = new google.maps.places.PlacesService(map);
+    // all request rely on the same location and radius
+    var loc = {lat: 37.335216, lng: -121.887814},
+        rad = 10000;
 
-    var requestApartments = {
-        location: {lat: 37.335216, lng: -121.887814},
-        radius: 10000,
-        keyword: 'apartment'
-    };
-    service.nearbySearch(requestApartments, callBack('apartment'));
+    // Setup and search for nearby places for serveral different types
 
-    var requestGroceries = {
-        location: {lat: 37.335216, lng: -121.887814},
-        radius: 10000,
-        keyword: 'groceries'
-    };
+    var requestApts = { location: loc, radius: rad, keyword: 'apartment' };
+    service.nearbySearch(requestApts, callBack('apartment'));
+
+    var requestGroceries = { location: loc, radius: rad, keyword: 'groceries' };
     service.nearbySearch(requestGroceries, callBack('groceries'));
 
-    var requestGames = {
-        location: {lat: 37.335216, lng: -121.887814},
-        radius: 10000,
-        keyword: 'games'
-    };
+    var requestGames = { location: loc, radius: rad, keyword: 'games' };
     service.nearbySearch(requestGames, callBack('games'));
 
-    var requestTheater = {
-        location: {lat: 37.335216, lng: -121.887814},
-        radius: 10000,
-        keyword: 'movies'
-    };
+    var requestTheater = { location: loc, radius: rad, keyword: 'movies' };
     service.nearbySearch(requestTheater, callBack('movies'));
 
-    var requestParks = {
-        location: {lat: 37.335216, lng: -121.887814},
-        radius: 10000,
-        keyword: 'parks'
-    };
+    var requestParks = { location: loc, radius: rad, keyword: 'parks' };
     service.nearbySearch(requestParks, callBack('parks'));
-
 }
 
-var infoWindow;
-
-
-
-
-
-
-var menuOpen = false;
-
+// Toggles the menu to show or hide
 function toggleMenu() {
 
     // Keep the menu at a max width
     var maxWidth = 600;
+    // make the window 90% the width of the viewport unless it would be too wide
     var width = $(window).width();
-    // console.log(width);
     width = (width > maxWidth) ? maxWidth : width;
     menuWidth = width * 0.9;
     menuWidth += "px";
-    $("#main-menu").css("width", menuWidth);
 
+    // Apply the final width each time to catch window resizing
+    $("#main-menu").css("width", menuWidth);
+    // Move the menu in view and shrink the map element
     if (menuOpen) {
         menuOpen = false;
         document.getElementById("main-menu").style.left = "-" + menuWidth;
@@ -118,3 +121,21 @@ function toggleMenu() {
         document.getElementById("map").style.marginLeft = menuWidth;
     }
 }
+
+// Temprary test to control the map markers by using the checkbox list in the
+// main menu.
+document.getElementById('showApartments').addEventListener('click', function() {
+    if (viewModel.showApartments()) {
+        for (var i = 0; i < viewModel.markers.length; i++) {
+            if (viewModel.markers[i].listingType == 'apartment') {
+                viewModel.markers[i].setMap(map);
+            }
+        }
+    } else {
+        for (var i = 0; i < viewModel.markers.length; i++) {
+            if (viewModel.markers[i].listingType == 'apartment') {
+                viewModel.markers[i].setMap(null);
+            }
+        }
+    }
+});
