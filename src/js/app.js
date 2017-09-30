@@ -61,14 +61,22 @@ function initMap() {
                         infoWindow.open(map,this);
                     });
 
-                    marker.listingType = itemName;
-                    viewModel.markers.push(marker);
+                    // marker.listingType = itemName;
+                    // viewModel.markers.push(marker);
+                    if (viewModel.markers[itemName] == undefined) {
+                        viewModel.markers[itemName] = [marker];
+                    } else {
+                        viewModel.markers[itemName].push(marker);
+                    }
                 });
+
+                initFilters(itemName);
             }
             // If the request failed, do something here
             else {
                 console.log("nearbySearch request failed!");
             }
+
         }
     }
 
@@ -122,20 +130,44 @@ function toggleMenu() {
     }
 }
 
-// Temprary test to control the map markers by using the checkbox list in the
-// main menu.
-document.getElementById('showApartments').addEventListener('click', function() {
-    if (viewModel.showApartments()) {
-        for (var i = 0; i < viewModel.markers.length; i++) {
-            if (viewModel.markers[i].listingType == 'apartment') {
-                viewModel.markers[i].setMap(map);
-            }
-        }
-    } else {
-        for (var i = 0; i < viewModel.markers.length; i++) {
-            if (viewModel.markers[i].listingType == 'apartment') {
-                viewModel.markers[i].setMap(null);
-            }
-        }
+/**
+ * Initializes the filers so all markers for a certain type can be removed
+ * from the map.
+ * @param {string} itemName - the type of place the marker can be
+ */
+function initFilters(itemName) {
+
+    // id - the element id for the filter
+    // markers - the map markers associated with the filter
+    // show - whether or not the markers should be displayed
+    var id, markers, show;
+
+    markers = viewModel.markers[itemName];
+    if (itemName == 'apartment') {
+        id = 'showApartments';
+        show = viewModel.showApartments;
+    } else if (itemName == 'games') {
+        id = 'showGames';
+        show = viewModel.showGames;
+    } else if (itemName == 'movies') {
+        id = 'showMovies';
+        show = viewModel.showMovies;
+    } else if (itemName == 'parks') {
+        id = 'showParks';
+        show = viewModel.showParks;
+    } else if (itemName == 'groceries') {
+        id = 'showGroceryStores';
+        show = viewModel.showGroceryStores;
     }
-});
+
+    // Setup a listener on the filter so all the markers can be toggled based on
+    // whether the filter is applied/checked
+    document.getElementById(id)
+            .addEventListener('click', function() {
+                markers.forEach(function(marker) {
+                    var markerMap = show() ? map : null;
+                    marker.setMap(markerMap);
+                });
+            });
+
+}

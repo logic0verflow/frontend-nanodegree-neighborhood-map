@@ -1,4 +1,3 @@
-
 // Knockout ViewModel that stores all the info used by the main menu
 var ViewModel = function() {
     var self = this;
@@ -18,13 +17,13 @@ var ViewModel = function() {
 
     // Booleans for whether or not the list should show in menu
     this.showApartments = ko.observable(true);
-    this.showVideoGames = ko.observable(true);
+    this.showGames = ko.observable(true);
     this.showGroceryStores = ko.observable(true);
     this.showMovies = ko.observable(true);
     this.showParks = ko.observable(true);
 
     // All the markers that get created on the Google Map
-    this.markers = [];
+    this.markers = {};
 };
 
 var viewModel = new ViewModel();

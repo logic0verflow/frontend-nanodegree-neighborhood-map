@@ -23,7 +23,7 @@
 <div class="app-container">
 
     <div id="main-menu">
-        <h1>multos anim irure</h1>
+        <h1>Neighborhood Map</h1>
         <div class="input-group">
             <input type="text" id="search-text" placeholder="Enter your search here"
                    class="form-control">
@@ -43,9 +43,9 @@
             <li><input id="showGroceryStores"
                        type="checkbox"
                        data-bind="checked: showGroceryStores">GroceryStores</li>
-            <li><input id="showVideoGames"
+            <li><input id="showGames"
                        type="checkbox"
-                       data-bind="checked: showVideoGames">VideoGames</li>
+                       data-bind="checked: showGames">Games</li>
             <li><input id="showMovies"
                        type="checkbox"
                        data-bind="checked: showMovies">Movies</li>
@@ -58,7 +58,7 @@
             <h3>Apartments</h3>
             <div data-bind="foreach: apartmentList" class="btn-group-vertical"
                  role="group">
-                <button type="button" data-bind="text: name"
+                <button type="button" data-bind="text: name, attr: {id: id}"
                         class="btn btn-default"></button>
             </div>
         </div>
@@ -67,16 +67,16 @@
             <h3>Groceries</h3>
             <div data-bind="foreach: groceriesList" class="btn-group-vertical"
                  role="group">
-                <button type="button" data-bind="text: name"
+                <button type="button" data-bind="text: name, attr: {id: id}"
                         class="btn btn-default"></button>
             </div>
         </div>
 
-        <div data-bind="visible: showVideoGames">
+        <div data-bind="visible: showGames">
             <h3>Games</h3>
             <div data-bind="foreach: gamesList" class="btn-group-vertical"
                  role="group">
-                <button type="button" data-bind="text: name"
+                <button type="button" data-bind="text: name, attr: {id: id}"
                         class="btn btn-default"></button>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <h3>Movies</h3>
             <div data-bind="foreach: moviesList" class="btn-group-vertical"
                  role="group">
-                <button type="button" data-bind="text: name"
+                <button type="button" data-bind="text: name, attr: {id: id}"
                         class="btn btn-default"></button>
             </div>
         </div>
@@ -94,7 +94,7 @@
             <h3>Parks</h3>
             <div data-bind="foreach: parksList" class="btn-group-vertical"
                  role="group">
-                <button type="button" data-bind="text: name"
+                <button type="button" data-bind="text: name, attr: {id: id}"
                         class="btn btn-default"></button>
             </div>
         </div>
