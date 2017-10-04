@@ -24,88 +24,90 @@
 
     <div id="main-menu">
         <h1>Neighborhood Map</h1>
-        <div class="input-group">
-            <input type="text" id="search-text" placeholder="Enter your search here"
-                   class="form-control">
-            <span class="input-group-btn">
-                <button type="button" id="search-button"
-                        class="btn btn-default">Search</button>
-            </span>
+
+        <div id="loc-info-pane" data-bind="fadeVisible: showingPlaceInfo, with: selectedListing">
+            <a href="#" data-bind="click: $parent.showListings">⬅ Go back to listings</a>
+            <h4 data-bind="text: name"></h4>
+            <!-- <p data-bind="text: description"></p> -->
+            <ul class="loc-info-list">
+                <li><span class="loc-info-icon">📫</span><span data-bind="text: address"></span></li>
+                <li><span class="loc-info-icon">🕒</span><span data-bind="text: hours"></span></li>
+                <li><span class="loc-info-icon">🕿</span><span data-bind="text: phone"></span></li>
+                <li><span class="loc-info-icon">🌐</span><span data-bind="text: website"></span></li>
+            </ul>
+
+            <a href="#" data-bind="click: $parent.showCredits">Credits</a>
         </div>
 
-        <h3>Apply filters</h3>
+        <div id="listings-pane" data-bind="fadeVisible: showingListings">
+            <!-- <div class="input-group">
+                <input type="text" id="search-text" placeholder="Enter your search here"
+                class="form-control">
+                <span class="input-group-btn">
+                    <button type="button" id="search-button"
+                    class="btn btn-default">Search</button>
+                </span>
+            </div> -->
 
-        <h5>Location Types</h5>
-        <ul>
-            <li><input id="showApartments"
-                       type="checkbox"
-                       data-bind="checked: showApartments">Apartments</li>
-            <li><input id="showGroceryStores"
-                       type="checkbox"
-                       data-bind="checked: showGroceryStores">GroceryStores</li>
-            <li><input id="showGames"
-                       type="checkbox"
-                       data-bind="checked: showGames">Games</li>
-            <li><input id="showMovies"
-                       type="checkbox"
-                       data-bind="checked: showMovies">Movies</li>
-            <li><input id="showParks"
-                       type="checkbox"
-                       data-bind="checked: showParks">Parks</li>
-        </ul>
+            <h3>Apply filters</h3>
 
-        <div data-bind="visible: showApartments">
-            <h3>Apartments</h3>
-            <div data-bind="foreach: apartmentList" class="btn-group-vertical"
-                 role="group">
-                <button type="button" data-bind="text: name, attr: {id: id}"
-                        class="btn btn-default"></button>
+            <h5>Location Types</h5>
+            <ul>
+                <li><input id="showApartments" type="checkbox" data-bind="checked: showApartments">Apartments</li>
+                <li><input id="showGroceryStores" type="checkbox" data-bind="checked: showGroceryStores">GroceryStores</li>
+                <li><input id="showGames" type="checkbox" data-bind="checked: showGames">Games</li>
+                <li><input id="showMovies" type="checkbox" data-bind="checked: showMovies">Movies</li>
+                <li><input id="showParks" type="checkbox" data-bind="checked: showParks">Parks</li>
+            </ul>
+
+            <div data-bind="visible: showApartments">
+                <h3>Apartments</h3>
+                <div data-bind="foreach: apartmentList" class="btn-group-vertical" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                </div>
             </div>
-        </div>
 
-        <div data-bind="visible: showGroceryStores">
-            <h3>Groceries</h3>
-            <div data-bind="foreach: groceriesList" class="btn-group-vertical"
-                 role="group">
-                <button type="button" data-bind="text: name, attr: {id: id}"
-                        class="btn btn-default"></button>
+            <div data-bind="visible: showGroceryStores">
+                <h3>Groceries</h3>
+                <div data-bind="foreach: groceriesList" class="btn-group-vertical" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                </div>
             </div>
-        </div>
 
-        <div data-bind="visible: showGames">
-            <h3>Games</h3>
-            <div data-bind="foreach: gamesList" class="btn-group-vertical"
-                 role="group">
-                <button type="button" data-bind="text: name, attr: {id: id}"
-                        class="btn btn-default"></button>
+            <div data-bind="visible: showGames">
+                <h3>Games</h3>
+                <div data-bind="foreach: gamesList" class="btn-group-vertical" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                </div>
             </div>
-        </div>
 
-        <div data-bind="visible: showMovies">
-            <h3>Movies</h3>
-            <div data-bind="foreach: moviesList" class="btn-group-vertical"
-                 role="group">
-                <button type="button" data-bind="text: name, attr: {id: id}"
-                        class="btn btn-default"></button>
+            <div data-bind="visible: showMovies">
+                <h3>Movies</h3>
+                <div data-bind="foreach: moviesList" class="btn-group-vertical" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                </div>
             </div>
-        </div>
 
-        <div data-bind="visible: showParks">
-            <h3>Parks</h3>
-            <div data-bind="foreach: parksList" class="btn-group-vertical"
-                 role="group">
-                <button type="button" data-bind="text: name, attr: {id: id}"
-                        class="btn btn-default"></button>
+            <div data-bind="visible: showParks">
+                <h3>Parks</h3>
+                <div data-bind="foreach: parksList" class="btn-group-vertical" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                </div>
             </div>
-        </div>
 
+            <a href="#" data-bind="click: showCredits">Credits</a>
+        </div>
+        <!-- Close listings-pane -->
 
         <!-- CREDITS -->
-        <p>
-            <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <div>Icons made by <a href="https://www.flaticon.com/authors/popcorns-arts" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-        </p>
+        <div id="credit-pane" data-bind="fadeVisible: showingCredits">
+            <a href="#" data-bind="click: showListings">⬅ Go back to listings</a>
+            <p>
+                <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                <div>Icons made by <a href="https://www.flaticon.com/authors/popcorns-arts" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            </p>
+        </div>
 
     </div>
 

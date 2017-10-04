@@ -54,3 +54,24 @@ h2 {
     transition: margin-left .3s;
 
 }
+
+#loc-info-pane,
+#credit-pane {
+    position: absolute;
+}
+
+#loc-info-pane,
+#listings-pane,
+#credit-pane {
+    box-shadow: 0 1px 10px 1px #9b9b9b;
+    padding: 15px;
+}
+
+.loc-info-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.loc-info-icon {
+    margin-right: 1em;
+}
