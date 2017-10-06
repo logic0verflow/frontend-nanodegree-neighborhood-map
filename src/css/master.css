@@ -55,16 +55,30 @@ h2 {
 
 }
 
-#loc-info-pane,
-#credit-pane {
-    position: absolute;
+@media (max-width: 599px) {
+    #loc-info-pane,
+    #listings-pane,
+    #credit-pane {
+        box-shadow: 0 1px 10px 1px #9b9b9b;
+        padding: 7px;
+        margin: 7px;
+        left: 0;
+        position: absolute;
+        right: 0;
+    }
 }
 
-#loc-info-pane,
-#listings-pane,
-#credit-pane {
-    box-shadow: 0 1px 10px 1px #9b9b9b;
-    padding: 15px;
+@media (min-width: 600px) {
+    #loc-info-pane,
+    #listings-pane,
+    #credit-pane {
+        box-shadow: 0 1px 10px 1px #9b9b9b;
+        padding: 15px;
+        margin: 15px;
+        position: absolute;
+        left: 0;
+        right: 0;
+    }
 }
 
 .loc-info-list {
@@ -74,4 +88,13 @@ h2 {
 
 .loc-info-icon {
     margin-right: 1em;
+}
+
+.btn-group-vertical {
+    width: 100%;
+}
+
+.btn {
+    word-break: break-word;
+    white-space: normal;
 }

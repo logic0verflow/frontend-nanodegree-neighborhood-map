@@ -23,30 +23,36 @@ var ViewModel = function() {
     this.showParks = ko.observable(true);
 
     this.selectedListing = {
-        name: ko.observable("DEFAULT NAME"),
-        // description: ko.observable("DEFAULT DESCRIPTION"),
-        address: ko.observable("DEFAULT ADDRESS"),
-        hours: ko.observable("DEFAULT HOURS"),
-        phone: ko.observable("DEFAULT PHONE"),
-        website: ko.observable("DEFAULT WEBSITE")
+        name: ko.observable(),
+        address: ko.observable(),
+        hours: ko.observableArray(),
+        phone: ko.observable(),
+        website: ko.observable(),
+        websiteShort: ko.observable()
     };
 
     // All the markers that get created on the Google Map
     this.markers = {};
 
     // Used to keep state of which pane is showing
-    this.showingPlaceInfo = ko.observable(false);
     this.showingListings = ko.observable(true);
+    this.showingPlaceInfo = ko.observable(false);
     this.showingCredits = ko.observable(false);
 
     self.showPlaceInfo = function(place) {
         // hide all panes except place info
-        self.showingPlaceInfo(true);
         self.showingListings(false);
         self.showingCredits(false);
-
+        self.showingPlaceInfo(true);
+        // reset all fields of the info pane
+        self.selectedListing.name(undefined);
+        self.selectedListing.address(undefined);
+        self.selectedListing.phone(undefined);
+        self.selectedListing.website(undefined);
+        self.selectedListing.websiteShort(undefined);
+        self.selectedListing.hours(undefined);
+        // Request the details of the place and update the info pane
         var request = { placeId: place.place_id };
-
         var service = new google.maps.places.PlacesService(map);
         service.getDetails(request, function(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -54,6 +60,17 @@ var ViewModel = function() {
                 self.selectedListing.address(place.formatted_address);
                 self.selectedListing.phone(place.formatted_phone_number);
                 self.selectedListing.website(place.website);
+                // only setup the short hand version if website provided
+                if (place.website) {
+                    self.selectedListing.websiteShort(place.website.slice(0,50));
+                }
+                // only setup weekday hours if opening hours is provided
+                if (place.opening_hours) {
+                    self.selectedListing.hours(place.opening_hours.weekday_text);
+                }
+            }
+            else {
+                self.selectedListing.name("Oops! We couldn't retrieve the place details.")
             }
         });
 

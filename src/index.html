@@ -30,10 +30,22 @@
             <h4 data-bind="text: name"></h4>
             <!-- <p data-bind="text: description"></p> -->
             <ul class="loc-info-list">
-                <li><span class="loc-info-icon">📫</span><span data-bind="text: address"></span></li>
-                <li><span class="loc-info-icon">🕒</span><span data-bind="text: hours"></span></li>
-                <li><span class="loc-info-icon">🕿</span><span data-bind="text: phone"></span></li>
-                <li><span class="loc-info-icon">🌐</span><span data-bind="text: website"></span></li>
+                <li data-bind="visible: address">
+                    <span class="loc-info-icon">📫</span><span data-bind="text: address"></span>
+                </li>
+                <li data-bind="visible: hours">
+                    <span class="loc-info-icon">🕒</span>
+                    <ul data-bind="foreach: hours">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                </li>
+                <li data-bind="visible: phone">
+                    <span class="loc-info-icon">🕿</span><span data-bind="text: phone"></span>
+                </li>
+                <li data-bind="visible: website">
+                    <span class="loc-info-icon">🌐</span>
+                    <a data-bind="text: websiteShort, attr: {href: website}"></a>
+                </li>
             </ul>
 
             <a href="#" data-bind="click: $parent.showCredits">Credits</a>
