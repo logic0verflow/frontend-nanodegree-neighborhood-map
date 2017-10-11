@@ -48,26 +48,18 @@ function initMap() {
                         }
                     });
 
-                    // Open infoWindow with point details when marker is clicked
-                    marker.addListener('click', function() {
-                        // If a marker is clicked, close any infoWindow that is
-                        // open
-                        infoWindow.close();
-                        // Setup content to display in infoWindow
-                        var content = '<div id="info-window"><h3>' +
-                                      item.name +
-                                      '</h3></div>';
-                        infoWindow.setContent(content);
-                        infoWindow.open(map,this);
-                    });
+                    marker.place_id = item.place_id;
 
-                    // marker.listingType = itemName;
-                    // viewModel.markers.push(marker);
-                    if (viewModel.markers[itemName] == undefined) {
-                        viewModel.markers[itemName] = [marker];
-                    } else {
-                        viewModel.markers[itemName].push(marker);
-                    }
+                    // Open infoWindow with point details when marker is clicked
+                    marker.addListener('click', markerCallback);
+
+                    marker.listingType = itemName;
+                    viewModel.markers.push(marker);
+                    // if (viewModel.markers[itemName] == undefined) {
+                    //     viewModel.markers[itemName] = [marker];
+                    // } else {
+                    //     viewModel.markers[itemName].push(marker);
+                    // }
                 });
 
                 initFilters(itemName);
@@ -103,35 +95,57 @@ function initMap() {
     service.nearbySearch(requestParks, callBack('parks'));
 }
 
+function markerCallback(self) {
+    // if a marker is passed, use the callback based on the passed marker.
+    // Otherwise, base the callback on the calling marker.
+    self = (self.place_id == undefined) ? this : self;
+
+    // If a marker is clicked, close any infoWindow that is open
+    infoWindow.close();
+    // Setup content to display in infoWindow
+    var content = '<div id="info-window"><h3>' + self.title + '</h3></div>';
+    infoWindow.setContent(content);
+    infoWindow.open(map,self);
+
+    map.setCenter(self.position);
+
+    viewModel.showPlaceInfo(self.place_id);
+}
+
+function openMenu() {
+    var width = document.getElementById("main-menu").offsetWidth;
+    width += "px";
+
+    menuOpen = true;
+    // Move the menu in view and shrink the map element
+    document.getElementById("main-menu").style.left = "0";
+    document.getElementById("menu-toggle").style.left = width;
+    // document.getElementById("map").style.marginLeft = width
+}
+
+function closeMenu() {
+    var width = document.getElementById("main-menu").offsetWidth;
+    width = "-" + width + "px";
+
+    menuOpen = false;
+    // Move the menu out of view and shrink the map element
+    document.getElementById("main-menu").style.left = width;
+    document.getElementById("menu-toggle").style.left = "0";
+    // document.getElementById("map").style.marginLeft = "0";
+}
+
 // Toggles the menu to show or hide
 function toggleMenu() {
 
-    // Keep the menu at a max width
-    var maxWidth = 600;
-    // make the window 90% the width of the viewport unless it would be too wide
-    var width = $(window).width();
-    width = (width > maxWidth) ? maxWidth : width;
-    menuWidth = width * 0.9;
-    menuWidth += "px";
-
-    // Apply the final width each time to catch window resizing
-    $("#main-menu").css("width", menuWidth);
-    // Move the menu in view and shrink the map element
     if (menuOpen) {
-        menuOpen = false;
-        document.getElementById("main-menu").style.left = "-" + menuWidth;
-        document.getElementById("menu-toggle").style.left = "0";
-        document.getElementById("map").style.marginLeft = "0";
+        closeMenu();
     } else {
-        menuOpen = true;
-        document.getElementById("main-menu").style.left = "0";
-        document.getElementById("menu-toggle").style.left = menuWidth;
-        document.getElementById("map").style.marginLeft = menuWidth;
+        openMenu();
     }
 }
 
 /**
- * Initializes the filers so all markers for a certain type can be removed
+ * Initializes the filters so all markers for a certain type can be removed
  * from the map.
  * @param {string} itemName - the type of place the marker can be
  */
@@ -140,9 +154,8 @@ function initFilters(itemName) {
     // id - the element id for the filter
     // markers - the map markers associated with the filter
     // show - whether or not the markers should be displayed
-    var id, markers, show;
+    var id, show;
 
-    markers = viewModel.markers[itemName];
     if (itemName == 'apartment') {
         id = 'showApartments';
         show = viewModel.showApartments;
@@ -164,9 +177,10 @@ function initFilters(itemName) {
     // whether the filter is applied/checked
     document.getElementById(id)
             .addEventListener('click', function() {
-                markers.forEach(function(marker) {
-                    var markerMap = show() ? map : null;
-                    marker.setMap(markerMap);
+                viewModel.markers.forEach(function(marker) {
+                    if (marker.listingType == itemName) {
+                        marker.setMap( show() ? map : null );
+                    }
                 });
             });
 

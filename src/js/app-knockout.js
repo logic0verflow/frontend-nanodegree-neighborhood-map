@@ -32,18 +32,15 @@ var ViewModel = function() {
     };
 
     // All the markers that get created on the Google Map
-    this.markers = {};
+    // this.markers = {};
+    this.markers = [];
 
     // Used to keep state of which pane is showing
     this.showingListings = ko.observable(true);
     this.showingPlaceInfo = ko.observable(false);
     this.showingCredits = ko.observable(false);
 
-    self.showPlaceInfo = function(place) {
-        // hide all panes except place info
-        self.showingListings(false);
-        self.showingCredits(false);
-        self.showingPlaceInfo(true);
+    self.updateInfoPane = function(place) {
         // reset all fields of the info pane
         self.selectedListing.name(undefined);
         self.selectedListing.address(undefined);
@@ -51,8 +48,17 @@ var ViewModel = function() {
         self.selectedListing.website(undefined);
         self.selectedListing.websiteShort(undefined);
         self.selectedListing.hours(undefined);
+
+        // Setup the request by allowing the function to take either a place or
+        // a place_id
+        var request;
+        if (place.place_id != undefined) {
+            request = { placeId: place.place_id };
+        } else {
+            request = { placeId: place };
+        }
+
         // Request the details of the place and update the info pane
-        var request = { placeId: place.place_id };
         var service = new google.maps.places.PlacesService(map);
         service.getDetails(request, function(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -73,7 +79,26 @@ var ViewModel = function() {
                 self.selectedListing.name("Oops! We couldn't retrieve the place details.")
             }
         });
+    }
 
+    self.showPlaceInfo = function(place) {
+
+        self.updateInfoPane(place)
+
+        // hide all panes except place info
+        self.showingListings(false);
+        self.showingCredits(false);
+        self.showingPlaceInfo(true);
+
+
+        self.markers.forEach(function(marker) {
+            if (marker.place_id == place.place_id) {
+                markerCallback(marker);
+                // break;
+            }
+        });
+
+        openMenu();
     };
 
     self.showListings = function(place) {
@@ -82,6 +107,7 @@ var ViewModel = function() {
         self.showingPlaceInfo(false);
         self.showingListings(true);
 
+        infoWindow.close();
         // self.selectedListing.name(place.name);
     };
 
@@ -89,6 +115,8 @@ var ViewModel = function() {
         self.showingCredits(!self.showingCredits());
         self.showingPlaceInfo(false);
         self.showingListings(false);
+
+        infoWindow.close();
     }
 };
 
