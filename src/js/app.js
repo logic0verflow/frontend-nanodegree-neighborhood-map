@@ -40,6 +40,7 @@ function initMap() {
                         position: item.geometry.location,
                         map: map,
                         title: item.name,
+                        animation: google.maps.Animation.DROP,
                         icon: {
                             url: 'img/' + itemName + '.png',
                             scaledSize: new google.maps.Size(20, 20),
@@ -107,9 +108,16 @@ function markerCallback(self) {
     infoWindow.setContent(content);
     infoWindow.open(map,self);
 
-    map.setCenter(self.position);
-
+    // Show the place information when marker is clicked
     viewModel.showPlaceInfo(self.place_id);
+    // Center the map around the selected marker
+    map.setCenter(self.position);
+    // Make the marker bounce for 1.5 seconds
+    self.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function() {
+        self.setAnimation(null);
+    }, 1500);
+
 }
 
 function openMenu() {
@@ -120,7 +128,7 @@ function openMenu() {
     // Move the menu in view and shrink the map element
     document.getElementById("main-menu").style.left = "0";
     document.getElementById("menu-toggle").style.left = width;
-    // document.getElementById("map").style.marginLeft = width
+    document.getElementById("map").style.marginLeft = width
 }
 
 function closeMenu() {
@@ -131,7 +139,7 @@ function closeMenu() {
     // Move the menu out of view and shrink the map element
     document.getElementById("main-menu").style.left = width;
     document.getElementById("menu-toggle").style.left = "0";
-    // document.getElementById("map").style.marginLeft = "0";
+    document.getElementById("map").style.marginLeft = "0";
 }
 
 // Toggles the menu to show or hide
