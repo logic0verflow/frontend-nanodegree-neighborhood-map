@@ -1,6 +1,6 @@
 
 var map,
-    infoWindow,
+    markerSelected,
     menuOpen = false;
 
 /**
@@ -14,9 +14,6 @@ function initMap() {
         fullscreenControl: false,
         mapTypeControl: false
     });
-
-    // Initialize the single info window used on the map
-    infoWindow = new google.maps.InfoWindow();
 
     /**
      * Use this callback function when requesting information from the
@@ -50,22 +47,15 @@ function initMap() {
                     });
 
                     marker.place_id = item.place_id;
-
-                    // Open infoWindow with point details when marker is clicked
                     marker.addListener('click', markerCallback);
 
                     marker.listingType = itemName;
                     viewModel.markers.push(marker);
-                    // if (viewModel.markers[itemName] == undefined) {
-                    //     viewModel.markers[itemName] = [marker];
-                    // } else {
-                    //     viewModel.markers[itemName].push(marker);
-                    // }
                 });
 
                 initFilters(itemName);
             }
-            // If the request failed, do something here
+            // If the request failed, output that it failed to the console
             else {
                 console.log("nearbySearch request failed!");
             }
@@ -101,23 +91,22 @@ function markerCallback(self) {
     // Otherwise, base the callback on the calling marker.
     self = (self.place_id == undefined) ? this : self;
 
-    // If a marker is clicked, close any infoWindow that is open
-    infoWindow.close();
-    // Setup content to display in infoWindow
-    var content = '<div id="info-window"><h3>' + self.title + '</h3></div>';
-    infoWindow.setContent(content);
-    infoWindow.open(map,self);
-
     // Show the place information when marker is clicked
     viewModel.showPlaceInfo(self.place_id);
     // Center the map around the selected marker
     map.setCenter(self.position);
     // Make the marker bounce for 1.5 seconds
     self.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function() {
-        self.setAnimation(null);
-    }, 1500);
 
+    if (markerSelected) {
+        markerSelected.setAnimation(null);
+    }
+    markerSelected = self;
+}
+
+function unselectMarker() {
+    markerSelected.setAnimation(null);
+    markerSelected = undefined;
 }
 
 function openMenu() {

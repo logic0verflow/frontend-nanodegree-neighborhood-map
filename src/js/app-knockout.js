@@ -30,7 +30,8 @@ var ViewModel = function() {
         website: ko.observable(),
         websiteShort: ko.observable(),
         photo: ko.observable(),
-        nytArticles: ko.observableArray()
+        nytArticles: ko.observableArray(),
+        marker: undefined
     };
 
     // All the markers that get created on the Google Map
@@ -68,7 +69,6 @@ var ViewModel = function() {
         service.getDetails(request, function(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
 
-                // console.log(place);
                 self.updateInfoPaneArticles(place);
 
                 self.selectedListing.name(place.name);
@@ -147,7 +147,6 @@ var ViewModel = function() {
                                 article.headline = article.headline.slice(0,50);
                                 article.headline += '...';
                             }
-                            console.log(article.web_url);
                             self.selectedListing.nytArticles.push(article);
                         }
                     });
@@ -167,11 +166,9 @@ var ViewModel = function() {
         self.showingCredits(false);
         self.showingPlaceInfo(true);
 
-
         self.markers.forEach(function(marker) {
             if (marker.place_id == place.place_id) {
                 markerCallback(marker);
-                // break;
             }
         });
 
@@ -184,8 +181,7 @@ var ViewModel = function() {
         self.showingPlaceInfo(false);
         self.showingListings(true);
 
-        infoWindow.close();
-        // self.selectedListing.name(place.name);
+        unselectMarker();
     };
 
     self.showCredits = function() {
@@ -193,7 +189,7 @@ var ViewModel = function() {
         self.showingPlaceInfo(false);
         self.showingListings(false);
 
-        infoWindow.close();
+        unselectMarker();
     }
 };
 

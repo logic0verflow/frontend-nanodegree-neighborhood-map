@@ -25,6 +25,7 @@ h2 {
     /*right: -80px;*/
     left: 0;
     z-index: 1;
+    padding: 0;
 }
 
 #main-menu,
@@ -74,7 +75,7 @@ h2 {
     box-shadow: 0 1px 4px 1px #4a4a4a;
 }
 
-@media (max-width: 399px) {
+@media (max-width: 464px) {
 
     #main-menu {
         left: -100vw;
@@ -93,7 +94,7 @@ h2 {
     }
 }
 
-@media (min-width: 400px) {
+@media (min-width: 465px) {
     #main-menu {
         left: -400px;
         max-width: 400px;
