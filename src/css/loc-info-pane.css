@@ -1,0 +1,55 @@
+/*This stylesheet applies styles to the location information pane
+when displaying a listings details*/
+
+
+
+
+.loc-info-img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+}
+
+
+/*The section with location information, i.e. address, hours, website
+Also used by the article section right below*/
+
+.loc-info-icon {
+    padding-right: 1em;
+}
+.loc-info-table {
+    width: 100%;
+    margin-bottom: 15px;
+}
+.loc-info-table tbody tr {
+    border-bottom: 1px solid #e3e3e3;
+}
+.loc-info-table tbody tr:last-child {
+    border: none;
+}
+.loc-hours-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+/*The section with New York Times article links*/
+
+
+.loc-article-section .loc-info-table tbody tr {
+    border-bottom: 1px solid black;
+}
+
+.loc-article-section {
+    background-color: #e1e1e1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0px 3px 3px 1px #878787;
+    padding: 15px;
+}
+
+.loc-article-section h2 {
+    font-family: serif;
+    text-decoration-line: underline;
+}

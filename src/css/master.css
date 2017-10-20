@@ -10,6 +10,12 @@ h2 {
     text-align: center;
 }
 
+#map {
+    background-color: grey;
+    width: 100%;
+    height: 100vh;
+}
+
 #menu-toggle {
     color: #777777;
     background-color: white;
@@ -22,7 +28,6 @@ h2 {
     top: 0px;
     margin: 15px;
     position: absolute;
-    /*right: -80px;*/
     left: 0;
     z-index: 1;
     padding: 0;
@@ -31,14 +36,6 @@ h2 {
 #main-menu,
 #menu-toggle {
     transition: 0.3s;
-}
-
-#map {
-    background-color: grey;
-    width: 100%;
-    height: 100vh;
-    transition: margin-left .3s;
-
 }
 
 #main-menu {
@@ -85,7 +82,6 @@ h2 {
     #main-menu {
         left: -100vw;
         width: 100vw;
-        /*max-width: 500px;*/
     }
 
     #loc-info-pane,
@@ -118,59 +114,17 @@ h2 {
     }
 }
 
-.loc-info-list,
-.loc-info-articles {
-    list-style-type: none;
-    padding: 0;
-}
 
-.loc-info-icon {
-    padding-right: 1em;
-}
+/*The listing pane buttons styling*/
 
-.loc-info-img {
-    width: 100%;
-    max-height: 150px;
-    object-fit: cover;
-}
 
-.btn-group-vertical {
+.listing-btn-group {
     width: 100%;
 }
 
-.btn {
+.listing-btn {
     word-break: break-word;
     white-space: normal;
-}
-
-
-
-.loc-info-table {
-    width: 100%;
-}
-.loc-info-table tbody tr {
-    border-bottom: 1px solid #e3e3e3;
-}
-.loc-info-table tbody tr:last-child {
-    border: none;
-}
-
-
-.loc-article-section .loc-info-table tbody tr {
-    border-bottom: 1px solid black;
-}
-
-.loc-article-section {
-    background-color: #e1e1e1;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    box-shadow: 0px 3px 3px 1px #878787;
-    padding: 15px;
-}
-
-.loc-article-section h2 {
-    font-family: serif;
-    text-decoration-line: underline;
 }
 
 .credit-link {

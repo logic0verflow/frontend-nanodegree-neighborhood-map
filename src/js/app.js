@@ -37,7 +37,6 @@ function initMap() {
                         position: item.geometry.location,
                         map: map,
                         title: item.name,
-                        animation: google.maps.Animation.DROP,
                         icon: {
                             url: 'img/' + itemName + '.png',
                             scaledSize: new google.maps.Size(20, 20),
@@ -91,6 +90,9 @@ function markerCallback(self) {
     // Otherwise, base the callback on the calling marker.
     self = (self.place_id == undefined) ? this : self;
 
+    // No need to do anything, marker selected is the same as active marker
+    if (self == markerSelected) return;
+
     // Show the place information when marker is clicked
     viewModel.showPlaceInfo(self.place_id);
     // Center the map around the selected marker
@@ -116,7 +118,7 @@ function openMenu() {
     width += "px";
 
     menuOpen = true;
-    // Move the menu in view and shrink the map element
+    // Move the menu in view
     document.getElementById("main-menu").style.left = "0";
     document.getElementById("menu-toggle").style.left = width;
     // document.getElementById("map").style.marginLeft = width

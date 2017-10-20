@@ -16,6 +16,7 @@
 
 
     <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/loc-info-pane.css">
 </head>
 
 <body>
@@ -38,37 +39,37 @@
 
             <a href="#" data-bind="click: $parent.showListings"><p>⬅ Go back to listings</p></a>
 
-            <img src="http://via.placeholder.com/350x150" class="loc-info-img" data-bind="attr: {src: photo}">
+            <img src="img/no-place-preview.jpg" class="loc-info-img" data-bind="attr: {src: photo}">
 
             <h2 data-bind="text: name"></h2>
 
-            <ul class="loc-info-list">
-                <table class="loc-info-table">
-                    <tbody>
-                        <tr data-bind="visible: address">
-                            <td class="loc-info-icon">📫</td>
-                            <td data-bind="text: address"></td>
-                        </tr>
-                        <tr data-bind="visible: hours">
-                            <td class="loc-info-icon">🕒</td>
-                            <td><ul data-bind="foreach: hours" class="loc-info-list">
+            <table class="loc-info-table">
+                <tbody>
+                    <tr data-bind="visible: address">
+                        <td class="loc-info-icon">📫</td>
+                        <td data-bind="text: address"></td>
+                    </tr>
+                    <tr data-bind="visible: hours">
+                        <td class="loc-info-icon">🕒</td>
+                        <td>
+                            <ul data-bind="foreach: hours" class="loc-hours-list">
                                 <li data-bind="text: $data"></li>
-                            </ul></td>
-                        </tr>
-                        <tr data-bind="visible: phone">
-                            <td class="loc-info-icon">☎</td>
-                            <td data-bind="text: phone"></td>
-                        </tr>
-                        <tr data-bind="visible: website">
-                            <td class="loc-info-icon">🌐</td>
-                            <td><a data-bind="text: websiteShort, attr: {href: website}"></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </ul>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr data-bind="visible: phone">
+                        <td class="loc-info-icon">☎</td>
+                        <td data-bind="text: phone"></td>
+                    </tr>
+                    <tr data-bind="visible: website">
+                        <td class="loc-info-icon">🌐</td>
+                        <td><a data-bind="text: websiteShort, attr: {href: website}"></a></td>
+                    </tr>
+                </tbody>
+            </table>
 
             <div data-bind="visible: nytArticles" class="loc-article-section">
-                <h2>Related NYTimes Articles</h2>
+                <h2>Related NY Times Articles</h2>
 
                 <table class="loc-info-table">
                     <tbody data-bind="foreach: nytArticles">
@@ -76,9 +77,6 @@
                     </tbody>
                 </table>
 
-                <!-- <div data-bind="foreach: nytArticles" class="btn-group-vertical" role="group">
-                    <a href="#" data-bind="attr: {href: $data.web_url}, text: $data.headline" class="btn btn-default"></a>
-                </div> -->
             </div>
 
             <a href="#" data-bind="click: $parent.showCredits" class="credit-link"><h3>Credits</h3></a>
@@ -111,36 +109,36 @@
 
             <div data-bind="visible: showApartments">
                 <h3>Apartments</h3>
-                <div data-bind="foreach: apartmentList" class="btn-group-vertical" role="group">
-                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                <div data-bind="foreach: apartmentList" class="btn-group-vertical listing-btn-group" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>
 
             <div data-bind="visible: showGroceryStores">
                 <h3>Groceries</h3>
-                <div data-bind="foreach: groceriesList" class="btn-group-vertical" role="group">
-                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                <div data-bind="foreach: groceriesList" class="btn-group-vertical listing-btn-group" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>
 
             <div data-bind="visible: showGames">
                 <h3>Games</h3>
-                <div data-bind="foreach: gamesList" class="btn-group-vertical" role="group">
-                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                <div data-bind="foreach: gamesList" class="btn-group-vertical listing-btn-group" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>
 
             <div data-bind="visible: showMovies">
                 <h3>Movies</h3>
-                <div data-bind="foreach: moviesList" class="btn-group-vertical" role="group">
-                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                <div data-bind="foreach: moviesList" class="btn-group-vertical listing-btn-group" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>
 
             <div data-bind="visible: showParks">
                 <h3>Parks</h3>
-                <div data-bind="foreach: parksList" class="btn-group-vertical" role="group">
-                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default"></button>
+                <div data-bind="foreach: parksList" class="btn-group-vertical listing-btn-group" role="group">
+                    <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>
 

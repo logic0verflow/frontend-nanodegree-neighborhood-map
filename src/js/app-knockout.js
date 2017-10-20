@@ -22,6 +22,7 @@ var ViewModel = function() {
     this.showMovies = ko.observable(true);
     this.showParks = ko.observable(true);
 
+    // The selected listings and its details
     this.selectedListing = {
         name: ko.observable(),
         address: ko.observable(),
@@ -109,18 +110,20 @@ var ViewModel = function() {
                     self.selectedListing.websiteShort(shortURL);
                 }
 
-                // only setup weekday hours if opening hours is provided
+                // only setup open hours if provided
                 if (place.opening_hours) {
                     self.selectedListing.hours(place.opening_hours.weekday_text);
                 }
             }
             else {
-                self.selectedListing.name("Oops! We couldn't retrieve the place details.")
+                self.selectedListing.name(
+                    "Oops! We couldn't retrieve the place details.");
             }
         });
     }
 
     self.updateInfoPaneArticles = function(place) {
+        // Setup the url request
         var searchTerm = place.name;
         var url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
         url += '?' + $.param({
@@ -132,9 +135,11 @@ var ViewModel = function() {
             url: url,
             method: 'GET'
         }).done(function(result) {
+            // As long as the request returned OK and there's articles to display
             if (result.status == 'OK') {
                 var nytDocs = result.response.docs;
                 if (nytDocs.length > 0) {
+                    // Clear the array of articles and begin pushing the new ones
                     self.selectedListing.nytArticles([]);
                     nytDocs.forEach(function(doc) {
                         // Only push an article if a headline and URL exist
@@ -159,6 +164,8 @@ var ViewModel = function() {
         });
     }
 
+    // Updates the info pane, hides the other two panes, finds the marker
+    // associated with the place and calls its callback, and opens the menu
     self.showPlaceInfo = function(place) {
 
         self.updateInfoPane(place)
@@ -177,6 +184,7 @@ var ViewModel = function() {
         openMenu();
     };
 
+    // only show the listings pane and ensure no marker is selected
     self.showListings = function(place) {
         // switch panes from listings to location info pane
         self.showingCredits(false);
@@ -186,6 +194,7 @@ var ViewModel = function() {
         unselectMarker();
     };
 
+    // Only show credits pane and ensure no marker is selected
     self.showCredits = function() {
         self.showingCredits(!self.showingCredits());
         self.showingPlaceInfo(false);
@@ -195,7 +204,12 @@ var ViewModel = function() {
     }
 };
 
-
+/**
+ * Requests for New York Times articles related to the tokens provided which
+ * are used as the search term
+ * @param {string} tokens - tokens to use when searching for NY Times articles
+ * @return {array} - An array of objects with string properties
+ */
 function getNYTArticles(tokens) {
     var url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
     url += '?' + $.param({
