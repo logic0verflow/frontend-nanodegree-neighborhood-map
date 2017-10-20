@@ -38,61 +38,50 @@
 
             <a href="#" data-bind="click: $parent.showListings"><p>⬅ Go back to listings</p></a>
 
-            <a href="#">
-                <img src="http://via.placeholder.com/350x150" class="loc-info-img" data-bind="attr: {src: photo}">
-            </a>
+            <img src="http://via.placeholder.com/350x150" class="loc-info-img" data-bind="attr: {src: photo}">
 
             <h2 data-bind="text: name"></h2>
-            <!-- <p data-bind="text: description"></p> -->
-            <ul class="loc-info-list">
-                <!-- <li data-bind="visible: address">
-                    <span class="loc-info-icon">📫</span><span data-bind="text: address"></span>
-                </li>
-                <li data-bind="visible: hours">
-                    <span class="loc-info-icon">🕒</span>
-                    <ul data-bind="foreach: hours">
-                        <li data-bind="text: $data"></li>
-                    </ul>
-                </li>
-                <li data-bind="visible: phone">
-                    <span class="loc-info-icon">🕿</span><span data-bind="text: phone"></span>
-                </li>
-                <li data-bind="visible: website">
-                    <span class="loc-info-icon">🌐</span>
-                    <a data-bind="text: websiteShort, attr: {href: website}"></a>
-                </li> -->
 
+            <ul class="loc-info-list">
                 <table class="loc-info-table">
-                    <tr data-bind="visible: address">
-                        <td class="loc-info-icon">📫</td>
-                        <td data-bind="text: address"></td>
-                    </tr>
-                    <tr data-bind="visible: hours">
-                        <td class="loc-info-icon">🕒</td>
-                        <td><ul data-bind="foreach: hours" class="loc-info-list">
-                            <li data-bind="text: $data"></li>
-                        </ul></td>
-                    </tr>
-                    <tr data-bind="visible: phone">
-                        <td class="loc-info-icon">☎</td>
-                        <td data-bind="text: phone"></td>
-                    </tr>
-                    <tr data-bind="visible: website">
-                        <td class="loc-info-icon">🌐</td>
-                        <td><a data-bind="text: websiteShort, attr: {href: website}"></a></td>
-                    </tr>
+                    <tbody>
+                        <tr data-bind="visible: address">
+                            <td class="loc-info-icon">📫</td>
+                            <td data-bind="text: address"></td>
+                        </tr>
+                        <tr data-bind="visible: hours">
+                            <td class="loc-info-icon">🕒</td>
+                            <td><ul data-bind="foreach: hours" class="loc-info-list">
+                                <li data-bind="text: $data"></li>
+                            </ul></td>
+                        </tr>
+                        <tr data-bind="visible: phone">
+                            <td class="loc-info-icon">☎</td>
+                            <td data-bind="text: phone"></td>
+                        </tr>
+                        <tr data-bind="visible: website">
+                            <td class="loc-info-icon">🌐</td>
+                            <td><a data-bind="text: websiteShort, attr: {href: website}"></a></td>
+                        </tr>
+                    </tbody>
                 </table>
             </ul>
 
-            <div data-bind="visible: nytArticles">
-                <h4>Related NYTimes Articles</h4>
+            <div data-bind="visible: nytArticles" class="loc-article-section">
+                <h2>Related NYTimes Articles</h2>
 
-                <div data-bind="foreach: nytArticles" class="btn-group-vertical" role="group">
+                <table class="loc-info-table">
+                    <tbody data-bind="foreach: nytArticles">
+                        <tr><td><a href="#" data-bind="attr: {href: $data.web_url}, text: $data.headline"></a></td></tr>
+                    </tbody>
+                </table>
+
+                <!-- <div data-bind="foreach: nytArticles" class="btn-group-vertical" role="group">
                     <a href="#" data-bind="attr: {href: $data.web_url}, text: $data.headline" class="btn btn-default"></a>
-                </div>
+                </div> -->
             </div>
 
-            <a href="#" data-bind="click: $parent.showCredits">Credits</a>
+            <a href="#" data-bind="click: $parent.showCredits" class="credit-link"><h3>Credits</h3></a>
         </div>
 
 
@@ -155,7 +144,7 @@
                 </div>
             </div>
 
-            <a href="#" data-bind="click: showCredits">Credits</a>
+            <a href="#" data-bind="click: showCredits" class="credit-link"><h3>Credits</h3></a>
         </div>
         <!-- Close listings-pane -->
 
@@ -164,7 +153,9 @@
             <a href="#" data-bind="click: showListings">⬅ Go back to listings</a>
             <p>
                 <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                <hr>
                 <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                <hr>
                 <div>Icons made by <a href="https://www.flaticon.com/authors/popcorns-arts" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
             </p>
         </div>

@@ -105,8 +105,10 @@ function markerCallback(self) {
 }
 
 function unselectMarker() {
-    markerSelected.setAnimation(null);
-    markerSelected = undefined;
+    if (markerSelected) {
+        markerSelected.setAnimation(null);
+        markerSelected = undefined;
+    }
 }
 
 function openMenu() {
