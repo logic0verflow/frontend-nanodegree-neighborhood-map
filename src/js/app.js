@@ -117,7 +117,7 @@ function openMenu() {
     // Move the menu in view and shrink the map element
     document.getElementById("main-menu").style.left = "0";
     document.getElementById("menu-toggle").style.left = width;
-    document.getElementById("map").style.marginLeft = width
+    // document.getElementById("map").style.marginLeft = width
 }
 
 function closeMenu() {
@@ -128,7 +128,7 @@ function closeMenu() {
     // Move the menu out of view and shrink the map element
     document.getElementById("main-menu").style.left = width;
     document.getElementById("menu-toggle").style.left = "0";
-    document.getElementById("map").style.marginLeft = "0";
+    // document.getElementById("map").style.marginLeft = "0";
 }
 
 // Toggles the menu to show or hide

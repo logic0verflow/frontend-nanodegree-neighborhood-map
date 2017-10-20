@@ -27,7 +27,7 @@
             <div class="col-xs-9"><h1>Neighborhood Map</h1></div>
 
             <div class="col-xs-3 del-right-gutter">
-                <button type="button" id="close-menu-button" onclick="toggleMenu()">🗙</button>
+                <button type="button" id="close-menu-button" onclick="toggleMenu()">X</button>
             </div>
         </div>
 
@@ -42,10 +42,10 @@
                 <img src="http://via.placeholder.com/350x150" class="loc-info-img" data-bind="attr: {src: photo}">
             </a>
 
-            <h4 data-bind="text: name"></h4>
+            <h2 data-bind="text: name"></h2>
             <!-- <p data-bind="text: description"></p> -->
             <ul class="loc-info-list">
-                <li data-bind="visible: address">
+                <!-- <li data-bind="visible: address">
                     <span class="loc-info-icon">📫</span><span data-bind="text: address"></span>
                 </li>
                 <li data-bind="visible: hours">
@@ -60,7 +60,28 @@
                 <li data-bind="visible: website">
                     <span class="loc-info-icon">🌐</span>
                     <a data-bind="text: websiteShort, attr: {href: website}"></a>
-                </li>
+                </li> -->
+
+                <table class="loc-info-table">
+                    <tr data-bind="visible: address">
+                        <td class="loc-info-icon">📫</td>
+                        <td data-bind="text: address"></td>
+                    </tr>
+                    <tr data-bind="visible: hours">
+                        <td class="loc-info-icon">🕒</td>
+                        <td><ul data-bind="foreach: hours" class="loc-info-list">
+                            <li data-bind="text: $data"></li>
+                        </ul></td>
+                    </tr>
+                    <tr data-bind="visible: phone">
+                        <td class="loc-info-icon">☎</td>
+                        <td data-bind="text: phone"></td>
+                    </tr>
+                    <tr data-bind="visible: website">
+                        <td class="loc-info-icon">🌐</td>
+                        <td><a data-bind="text: websiteShort, attr: {href: website}"></a></td>
+                    </tr>
+                </table>
             </ul>
 
             <div data-bind="visible: nytArticles">

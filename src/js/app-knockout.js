@@ -80,6 +80,8 @@ var ViewModel = function() {
                     var photoOptions = {maxWidth: 350, maxHeight: 150};
                     var photoUrl = place.photos[0].getUrl(photoOptions);
                     self.selectedListing.photo(photoUrl);
+                } else {
+                    self.selectedListing.photo('img/no-place-preview.jpg');
                 }
 
 
