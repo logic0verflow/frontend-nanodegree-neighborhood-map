@@ -90,6 +90,7 @@ h2 {
         padding: 7px;
         margin: 7px;
     }
+
     #close-menu-button {
         display: block;
     }
@@ -125,8 +126,32 @@ h2 {
 .listing-btn {
     word-break: break-word;
     white-space: normal;
+    background-color: #eeeeee;
 }
 
 .credit-link {
     text-align: center;
+}
+
+
+/*Filter list options for the listing pane and map*/
+
+
+ul.filter-list {
+    list-style: none;
+    padding-left: 15px;
+}
+
+ul.filter-list li input {
+    margin: 5px;
+    /*line-height: 2em;*/
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    /*margin-right: 1em;*/
+}
+
+ul.filter-list li img {
+    max-height: 1.5em;
+    margin-right: 5px;
 }
