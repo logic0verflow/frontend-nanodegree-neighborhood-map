@@ -39,6 +39,30 @@ var ViewModel = function() {
     // this.markers = {};
     this.markers = [];
 
+    // Clear all the stored data
+    this.clearAll = function() {
+        self.apartmentList([]);
+        self.gamesList([]);
+        self.groceriesList([]);
+        self.moviesList([]);
+        self.parksList([]);
+
+        // The selected listings and its details
+        self.selectedListing.name(undefined);
+        self.selectedListing.address(undefined);
+        self.selectedListing.phone(undefined);
+        self.selectedListing.website(undefined);
+        self.selectedListing.websiteShort(undefined);
+        self.selectedListing.hours(undefined);
+        self.selectedListing.photo(undefined);
+        self.selectedListing.nytArticles([]);
+        self.selectedListing.marker = undefined;
+
+        // All the markers that get created on the Google Map
+        self.markers = [];
+    };
+
+
     // Used to keep state of which pane is showing
     this.showingListings = ko.observable(true);
     this.showingPlaceInfo = ko.observable(false);

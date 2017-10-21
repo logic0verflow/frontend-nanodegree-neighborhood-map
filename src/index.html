@@ -25,7 +25,7 @@
 
     <div id="main-menu">
         <div class="row">
-            <div class="col-xs-9"><h1>Neighborhood Map</h1></div>
+            <div class="col-xs-9"><h1>The Essentials</h1></div>
 
             <div class="col-xs-3 del-right-gutter">
                 <button type="button" id="close-menu-button" onclick="toggleMenu()">X</button>
@@ -96,15 +96,19 @@
                 </span>
             </div> -->
 
+
+            <button type="button" name="button" onclick="centerMapOnUser()" class="btn btn-default">Use My Location</button>
+
+
             <h3>Apply filters</h3>
 
             <ul class="filter-list">
                 <li><input id="showApartments" type="checkbox" data-bind="checked: showApartments">
                     <img src="img/apartment.png" alt="apartment icon">Apartments</li>
-                <li><input id="showGroceryStores" type="checkbox" data-bind="checked: showGroceryStores">
-                    <img src="img/groceries.png" alt="groceries icon">Grocery Stores</li>
                 <li><input id="showGames" type="checkbox" data-bind="checked: showGames">
                     <img src="img/games.png" alt="games icon">Games</li>
+                <li><input id="showGroceryStores" type="checkbox" data-bind="checked: showGroceryStores">
+                    <img src="img/groceries.png" alt="groceries icon">Grocery Stores</li>
                 <li><input id="showMovies" type="checkbox" data-bind="checked: showMovies">
                     <img src="img/movies.png" alt="movies icon">Movies</li>
                 <li><input id="showParks" type="checkbox" data-bind="checked: showParks">
@@ -118,16 +122,16 @@
                 </div>
             </div>
 
-            <div data-bind="visible: showGroceryStores">
-                <h3>Groceries</h3>
-                <div data-bind="foreach: groceriesList" class="btn-group-vertical listing-btn-group" role="group">
+            <div data-bind="visible: showGames">
+                <h3>Games</h3>
+                <div data-bind="foreach: gamesList" class="btn-group-vertical listing-btn-group" role="group">
                     <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>
 
-            <div data-bind="visible: showGames">
-                <h3>Games</h3>
-                <div data-bind="foreach: gamesList" class="btn-group-vertical listing-btn-group" role="group">
+            <div data-bind="visible: showGroceryStores">
+                <h3>Groceries</h3>
+                <div data-bind="foreach: groceriesList" class="btn-group-vertical listing-btn-group" role="group">
                     <button type="button" data-bind="text: name, attr: {id: id}, click: $parent.showPlaceInfo" class="btn btn-default listing-btn"></button>
                 </div>
             </div>

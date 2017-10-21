@@ -3,86 +3,110 @@ var map,
     markerSelected,
     menuOpen = false;
 
+
+/**
+ * Use this callback function when requesting information from the
+ * nearbySearch within the PlacesServices library.
+ * @param {string} itemName - The name/type of the item requested, used as
+ *                            a key when accessing the ViewModel
+ * @return {function} - Anonymous function that saves the results from the
+ *                      request, creates markers with listeners, and saves
+ *                      the markers.
+ */
+var nearbySearchCallback = function(itemName) {
+    return function(results, status) {
+        // if the request made returned back OK and results intact
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            // Save the results in the associated list
+            viewModel.load(itemName, results);
+            // for each result, create a marker with a listener
+            results.forEach(function(item) {
+
+                var marker = new google.maps.Marker({
+                    position: item.geometry.location,
+                    map: map,
+                    title: item.name,
+                    icon: {
+                        url: 'img/' + itemName + '.png',
+                        scaledSize: new google.maps.Size(20, 20),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(0, 10)
+                    }
+                });
+
+                marker.place_id = item.place_id;
+                marker.addListener('click', markerCallback);
+
+                marker.listingType = itemName;
+                viewModel.markers.push(marker);
+            });
+
+            initFilters(itemName);
+        }
+        // If the request failed, output that it failed to the console
+        else {
+            console.log("nearbySearch request failed!");
+        }
+    }
+}
+
+
+
+
+/**
+ * Updates the map position, the markers on the map, and the listings available
+ * in the menu.
+ * @param {object} position - object with latitude and longitude properties as
+ *                            lat and lng respectfully.
+ */
+function updateMapPosition(position) {
+    map.setCenter(position);
+    // Ensure the viewModel is empty before adding data based on the position
+    viewModel.clearAll();
+
+    var service = new google.maps.places.PlacesService(map);
+    // all request rely on the same radius
+    var rad = 10000,
+        loc = position;
+
+    // Setup and search for nearby places for serveral different types
+
+    var requestApts = { location: loc, radius: rad, keyword: 'apartment' };
+    service.nearbySearch(requestApts, nearbySearchCallback('apartment'));
+
+    var requestGroceries = { location: loc, radius: rad, keyword: 'groceries' };
+    service.nearbySearch(requestGroceries, nearbySearchCallback('groceries'));
+
+    var requestGames = { location: loc, radius: rad, keyword: 'games' };
+    service.nearbySearch(requestGames, nearbySearchCallback('games'));
+
+    var requestTheater = { location: loc, radius: rad, keyword: 'movies' };
+    service.nearbySearch(requestTheater, nearbySearchCallback('movies'));
+
+    var requestParks = { location: loc, radius: rad, keyword: 'parks' };
+    service.nearbySearch(requestParks, nearbySearchCallback('parks'));
+}
+
+
 /**
  * Sets up the Google Map and requests all the data needed for the markers
  */
 function initMap() {
-    // Setup the page Google Map
+
+    // The default position is San Jose, California
+    var pos = {lat: 37.335216, lng: -121.887814};
+
+
+    // Setup the pages Google Map
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 37.335216, lng: -121.887814},
+        center: pos,
         zoom: 12    ,
         fullscreenControl: false,
         mapTypeControl: false
     });
 
-    /**
-     * Use this callback function when requesting information from the
-     * nearbySearch within the PlacesServices library.
-     * @param {string} itemName - The name/type of the item requested, used as
-     *                            a key when accessing the ViewModel
-     * @return {function} - Anonymous function that saves the results from the
-     *                      request, creates markers with listeners, and saves
-     *                      the markers.
-     */
-    var callBack = function(itemName) {
-        return function(results, status) {
-            // if the request made returned back OK and results intact
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-                // Save the results in the associated list
-                viewModel.load(itemName, results);
-                // for each result, create a marker with a listener
-                results.forEach(function(item) {
+    updateMapPosition(pos);
 
-                    var marker = new google.maps.Marker({
-                        position: item.geometry.location,
-                        map: map,
-                        title: item.name,
-                        icon: {
-                            url: 'img/' + itemName + '.png',
-                            scaledSize: new google.maps.Size(20, 20),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(0, 10)
-                        }
-                    });
-
-                    marker.place_id = item.place_id;
-                    marker.addListener('click', markerCallback);
-
-                    marker.listingType = itemName;
-                    viewModel.markers.push(marker);
-                });
-
-                initFilters(itemName);
-            }
-            // If the request failed, output that it failed to the console
-            else {
-                console.log("nearbySearch request failed!");
-            }
-
-        }
-    }
-
-    var service = new google.maps.places.PlacesService(map);
-    // all request rely on the same location and radius
-    var loc = {lat: 37.335216, lng: -121.887814},
-        rad = 10000;
-
-    // Setup and search for nearby places for serveral different types
-
-    var requestApts = { location: loc, radius: rad, keyword: 'apartment' };
-    service.nearbySearch(requestApts, callBack('apartment'));
-
-    var requestGroceries = { location: loc, radius: rad, keyword: 'groceries' };
-    service.nearbySearch(requestGroceries, callBack('groceries'));
-
-    var requestGames = { location: loc, radius: rad, keyword: 'games' };
-    service.nearbySearch(requestGames, callBack('games'));
-
-    var requestTheater = { location: loc, radius: rad, keyword: 'movies' };
-    service.nearbySearch(requestTheater, callBack('movies'));
-
-    var requestParks = { location: loc, radius: rad, keyword: 'parks' };
-    service.nearbySearch(requestParks, callBack('parks'));
 }
 
 function markerCallback(self) {
@@ -185,4 +209,19 @@ function initFilters(itemName) {
                 });
             });
 
+}
+
+
+
+function centerMapOnUser() {
+    // Try requesting the users location if HTML5 geolocation is available
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            updateMapPosition(pos);
+        });
+    }
 }
