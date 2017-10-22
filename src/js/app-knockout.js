@@ -59,7 +59,10 @@ var ViewModel = function() {
         self.selectedListing.marker = undefined;
 
         // All the markers that get created on the Google Map
-        self.markers = [];
+        self.markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        self.markers.length = 0;
     };
 
 
@@ -184,7 +187,7 @@ var ViewModel = function() {
                 }
             }
         }).fail(function(err) {
-            throw err;
+            // If the request fails, simply don't show the articles section
         });
     }
 

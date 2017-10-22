@@ -51,8 +51,6 @@ var nearbySearchCallback = function(itemName) {
 }
 
 
-
-
 /**
  * Updates the map position, the markers on the map, and the listings available
  * in the menu.
@@ -60,6 +58,8 @@ var nearbySearchCallback = function(itemName) {
  *                            lat and lng respectfully.
  */
 function updateMapPosition(position) {
+    closeMenu();
+
     map.setCenter(position);
     // Ensure the viewModel is empty before adding data based on the position
     viewModel.clearAll();
@@ -109,6 +109,7 @@ function initMap() {
 
 }
 
+
 function markerCallback(self) {
     // if a marker is passed, use the callback based on the passed marker.
     // Otherwise, base the callback on the calling marker.
@@ -130,12 +131,14 @@ function markerCallback(self) {
     markerSelected = self;
 }
 
+
 function unselectMarker() {
     if (markerSelected) {
         markerSelected.setAnimation(null);
         markerSelected = undefined;
     }
 }
+
 
 function openMenu() {
     var width = document.getElementById("main-menu").offsetWidth;
@@ -148,6 +151,7 @@ function openMenu() {
     // document.getElementById("map").style.marginLeft = width
 }
 
+
 function closeMenu() {
     var width = document.getElementById("main-menu").offsetWidth;
     width = "-" + width + "px";
@@ -159,6 +163,7 @@ function closeMenu() {
     // document.getElementById("map").style.marginLeft = "0";
 }
 
+
 // Toggles the menu to show or hide
 function toggleMenu() {
 
@@ -168,6 +173,7 @@ function toggleMenu() {
         openMenu();
     }
 }
+
 
 /**
  * Initializes the filters so all markers for a certain type can be removed
