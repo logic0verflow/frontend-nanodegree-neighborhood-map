@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['*.{gif,jpeg,jpg,png}', '!src/img/no-place-preview.jpg'],
+          src: ['*.{gif,jpeg,jpg,png}'],
           cwd: 'src/img/',
           dest: 'dist/img/'
         }]
@@ -74,6 +74,7 @@ module.exports = function(grunt) {
       main: {
         files: {
             'dist/img/no-place-preview.jpg': 'src/img/no-place-preview.jpg',
+            'dist/img/poweredby_nytimes_150c.png': 'src/img/poweredby_nytimes_150c.png',
             'dist/css/bootstrap.min.css': 'src/css/bootstrap.min.css',
             'dist/js/bootstrap.min.js': 'src/js/bootstrap.min.js',
             'dist/js/jquery-3.2.1.min.js': 'src/js/jquery-3.2.1.min.js',
