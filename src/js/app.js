@@ -47,8 +47,8 @@ var nearbySearchCallback = function(itemName) {
         else {
             console.log("nearbySearch request failed!");
         }
-    }
-}
+    };
+};
 
 
 /**
@@ -113,7 +113,7 @@ function initMap() {
 function markerCallback(self) {
     // if a marker is passed, use the callback based on the passed marker.
     // Otherwise, base the callback on the calling marker.
-    self = (self.place_id == undefined) ? this : self;
+    self = (self.place_id === undefined) ? this : self;
 
     // No need to do anything, marker selected is the same as active marker
     if (self == markerSelected) return;
