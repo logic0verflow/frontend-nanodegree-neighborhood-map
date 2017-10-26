@@ -41,7 +41,7 @@ var nearbySearchCallback = function(itemName) {
                 viewModel.markers.push(marker);
             });
 
-            initFilters(itemName);
+            // initFilters(itemName);
         }
         // If the request failed, output that it failed to the console
         else {
@@ -110,6 +110,12 @@ function initMap() {
 }
 
 
+// This function is called if the Google Maps API script fails to load
+function googleMapAPIError() {
+    alert("Whoops! The Google Maps service couldn't be reached.")
+}
+
+
 function markerCallback(self) {
     // if a marker is passed, use the callback based on the passed marker.
     // Otherwise, base the callback on the calling marker.
@@ -138,6 +144,9 @@ function unselectMarker() {
         markerSelected = undefined;
     }
 }
+
+
+
 
 
 function openMenu() {
@@ -173,50 +182,6 @@ function toggleMenu() {
         openMenu();
     }
 }
-
-
-/**
- * Initializes the filters so all markers for a certain type can be removed
- * from the map.
- * @param {string} itemName - the type of place the marker can be
- */
-function initFilters(itemName) {
-
-    // id - the element id for the filter
-    // markers - the map markers associated with the filter
-    // show - whether or not the markers should be displayed
-    var id, show;
-
-    if (itemName == 'apartment') {
-        id = 'showApartments';
-        show = viewModel.showApartments;
-    } else if (itemName == 'games') {
-        id = 'showGames';
-        show = viewModel.showGames;
-    } else if (itemName == 'movies') {
-        id = 'showMovies';
-        show = viewModel.showMovies;
-    } else if (itemName == 'parks') {
-        id = 'showParks';
-        show = viewModel.showParks;
-    } else if (itemName == 'groceries') {
-        id = 'showGroceryStores';
-        show = viewModel.showGroceryStores;
-    }
-
-    // Setup a listener on the filter so all the markers can be toggled based on
-    // whether the filter is applied/checked
-    document.getElementById(id)
-            .addEventListener('click', function() {
-                viewModel.markers.forEach(function(marker) {
-                    if (marker.listingType == itemName) {
-                        marker.setMap( show() ? map : null );
-                    }
-                });
-            });
-
-}
-
 
 
 function centerMapOnUser() {

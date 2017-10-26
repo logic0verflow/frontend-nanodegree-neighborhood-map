@@ -68,14 +68,16 @@
                 </tbody>
             </table>
 
-            <div data-bind="visible: nytArticles" class="loc-article-section">
+            <div class="loc-article-section">
                 <h2>Related NY Times Articles</h2>
 
-                <table class="loc-info-table">
+                <table data-bind="visible: !$parent.nytRequestStatus()" class="loc-info-table">
                     <tbody data-bind="foreach: nytArticles">
                         <tr><td><a href="#" data-bind="attr: {href: $data.web_url}, text: $data.headline"></a></td></tr>
                     </tbody>
                 </table>
+
+                <h3 data-bind="visible: $parent.nytRequestStatus, text: $parent.nytRequestStatus"></h3>
 
                 <!-- Attribution for New York Times -->
                 <a href="http://developer.nytimes.com.">
@@ -93,15 +95,6 @@
         <!-- LISTINGS PANE -->
 
         <div id="listings-pane" data-bind="fadeVisible: showingListings">
-            <!-- <div class="input-group">
-                <input type="text" id="search-text" placeholder="Enter your search here"
-                class="form-control">
-                <span class="input-group-btn">
-                    <button type="button" id="search-button"
-                    class="btn btn-default">Search</button>
-                </span>
-            </div> -->
-
 
             <button type="button" name="button" onclick="centerMapOnUser()" class="btn btn-default">Use My Location</button>
 
@@ -183,7 +176,7 @@
 <script src="js/app.js"></script>
 <!-- Load Google Maps API with callback function -->
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA8X7hPwr4XRW6r2OcuWj_O-UfyeT104c4&callback=initMap"
-    async defer></script>
+    async onerror="googleMapAPIError()"></script>
 
 </body>
 </html>
