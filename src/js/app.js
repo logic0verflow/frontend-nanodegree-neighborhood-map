@@ -112,7 +112,7 @@ function initMap() {
 
 // This function is called if the Google Maps API script fails to load
 function googleMapAPIError() {
-    alert("Whoops! The Google Maps service couldn't be reached.")
+    alert("Whoops! The Google Maps service couldn't be reached.");
 }
 
 

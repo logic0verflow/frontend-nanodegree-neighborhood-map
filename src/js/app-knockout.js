@@ -230,7 +230,7 @@ var ViewModel = function() {
                         articles.push(article);
                     }
                 });
-                if (articles.length == 0) {
+                if (articles.length === 0) {
                     self.nytRequestStatus(
                         'No related articles were found for this location');
                 }
